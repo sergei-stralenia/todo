@@ -19,5 +19,5 @@ export default ({ handleAdd }) => {
         Add
       </button>
     </div>
-  )
-}
+  );
+};

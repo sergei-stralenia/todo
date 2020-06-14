@@ -31,7 +31,7 @@ const completeTask = (state, action) => {
     ...state,
     currentTasks,
     completedTasks,
-  }
+  };
 };
 
 const undoTask = (state, action) => {
@@ -46,7 +46,7 @@ const undoTask = (state, action) => {
     ...state,
     currentTasks,
     completedTasks,
-  }
+  };
 };
 
 const deleteTask = (state, action) => {
@@ -55,21 +55,21 @@ const deleteTask = (state, action) => {
   return {
     ...state,
     completedTasks,
-  }
+  };
 };
 
 const todo = (state = initialState, action) => {
   switch(action.type) {
-    case ADD_TASK: 
-      return addTask(state, action);
-    case COMPLETE_TASK:
-      return completeTask(state, action);
-    case UNDO_TASK:
-      return undoTask(state, action);
-    case DELETE_TASK:
-      return deleteTask(state, action);
-    default:
-      return state;
+  case ADD_TASK: 
+    return addTask(state, action);
+  case COMPLETE_TASK:
+    return completeTask(state, action);
+  case UNDO_TASK:
+    return undoTask(state, action);
+  case DELETE_TASK:
+    return deleteTask(state, action);
+  default:
+    return state;
   }
 };
 

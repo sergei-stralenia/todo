@@ -9,5 +9,5 @@ export default ({ tasks, handleComplete }) => {
         tasks.map(t => <CurrentTask key={t.id} task={t} handleComplete={handleComplete}></CurrentTask>)
       }
     </div>
-  )
-}
+  );
+};

@@ -20,4 +20,3 @@ exports.default = (cb) => {
     .pipe(gulp.dest('build'))
     .on('end', browserified);
 };
-

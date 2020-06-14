@@ -12,7 +12,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleComplete: task => dispatch(completeTask(task)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentTasks);

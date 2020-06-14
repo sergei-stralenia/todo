@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --progress",
     "deploy": "surge",
-    "watch": "webpack --progress -w"
+    "watch": "webpack --progress -w",
+    "lint": "eslint --ext js,jsx --fix ."
   },
   "author": "",
   "license": "ISC",
@@ -23,8 +24,11 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.1",
     "babel": "^6.23.0",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^8.1.0",
     "browserify": "^16.5.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.20.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "html-webpack-plugin": "^4.3.0",

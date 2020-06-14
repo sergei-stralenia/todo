@@ -3,7 +3,6 @@ import reducers from './reducers';
 
 const restoreStateFromLocalStorage = () => {
   const stringifiedStore = localStorage.getItem('todoAppState');
-  console.log('stringifiedStore', stringifiedStore);
   
   if (!stringifiedStore) {
     return {};
