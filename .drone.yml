@@ -7,14 +7,41 @@ steps:
   - name: build
     image: node
     commands:
-      - npm i --production --progress --no-audit
-      - npm i surge -g
-      - echo $SURGE_EMAIL > creds.txt
-      - echo $SURGE_PASSWORD >> creds.txt
-      - cat creds.txt
-      - surge login << creds.txt
-      - surge ./build $SURGE_DOMAIN
-    environment:
-      SURGE_EMAIL: s.stralenia@paralect.com
-      SURGE_PASSWORD: todo
-      SURGE_DOMAIN: todo-stralenia.surge.com
+      - npm i --progress --no-audit
+      - npm run lint
+      - npm run build
+
+  - name: upload
+    image: plugins/s3
+    settings:
+      bucket:
+        from_secret: s3_bucket
+      region:
+        from_secret: s3_region
+      access_key:
+        from_secret: aws_key
+      secret_key:
+        from_secret: aws_secret
+      source: build/*
+      target: /
+      exclude:
+        - "**/*.sh"
+    depends_on:
+      - build
+
+  - name: send telegram notification
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_chat_id
+      message: >
+        {{#success build.status}}
+          Build {{build.number}} succeeded. Good job.
+        {{else}}
+          Build {{build.number}} failed. Fix me please.
+        {{/success}}
+    depends_on:
+      - build
+      - upload

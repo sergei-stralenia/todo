@@ -7,7 +7,7 @@
     "build": "webpack --progress",
     "deploy": "surge",
     "watch": "webpack --progress -w",
-    "lint": "eslint --ext js,jsx --fix ."
+    "lint": "eslint --ext js,jsx ."
   },
   "author": "",
   "license": "ISC",
