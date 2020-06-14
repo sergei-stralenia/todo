@@ -1,0 +1,20 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: node
+    commands:
+      - npm i --production --progress --no-audit
+      - npm i surge -g
+      - echo $SURGE_EMAIL > creds.txt
+      - echo $SURGE_PASSWORD >> creds.txt
+      - cat creds.txt
+      - surge login << creds.txt
+      - surge ./build $SURGE_DOMAIN
+    environment:
+      SURGE_EMAIL: s.stralenia@paralect.com
+      SURGE_PASSWORD: todo
+      SURGE_DOMAIN: todo-stralenia.surge.com
