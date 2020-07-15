@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "9"
+
+branches:
+  only:
+  - master
+
+install:
+  - npm i --progress --no-audit
+
+jobs:
+  include:
+    - stage: Lint
+      script: npm run lint
+    - stage: Build
+      script: npm run build
+    - stage: Deploy
+      script: skip
+      deploy: &surge
+        provider: surge
+        project: ./build/
+        domain: sergeistralenia.surge.sh
