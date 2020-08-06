@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { uuid } from 'uuidv4';
  
-import { ADD_TASK, COMPLETE_TASK, UNDO_TASK, DELETE_TASK } from './actions';
+import { ADD_TASK, COMPLETE_TASK, UNDO_TASK, DELETE_TASK, SET_STORE } from './actions';
 import initialState from './initialState';
 
 const addTask = (state, action) => {
@@ -68,6 +68,8 @@ const todo = (state = initialState, action) => {
     return undoTask(state, action);
   case DELETE_TASK:
     return deleteTask(state, action);
+  case SET_STORE:
+    return { ...action.state };
   default:
     return state;
   }

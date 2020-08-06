@@ -2,6 +2,7 @@ export const ADD_TASK = 'ADD_TASK';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const UNDO_TASK = 'UNDO_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
+export const SET_STORE = 'SET_STORE';
 
 export const addTask = taskName => {
   return {
@@ -28,5 +29,12 @@ export const deleteTask = task => {
   return {
     type: DELETE_TASK,
     task,
+  };
+};
+
+export const setStore = state => {
+  return {
+    type: SET_STORE,
+    state,
   };
 };

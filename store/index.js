@@ -1,25 +1,58 @@
 import { createStore } from 'redux';
 import reducers from './reducers';
+import { setStore } from './actions';
+import initialState  from './initialState';
 
-const restoreStateFromLocalStorage = () => {
-  const stringifiedStore = localStorage.getItem('todoAppState');
-  
-  if (!stringifiedStore) {
-    return {};
+let store;
+
+if (Boolean(process.env.USE_SERVER)) {
+  const restoreStateFromServer = () => {
+    fetch('/tasks')
+      .then(response => response.json())
+      .then(data => {
+        data = data && data.todo;
+
+        store.dispatch(setStore(data || initialState));
+      });
   }
-  
-  return JSON.parse(stringifiedStore);
-};
 
-const saveStateInLocalStorage = () => {
-  const state = store.getState();
-  const stringifiedStore = JSON.stringify(state);
-  localStorage.setItem('todoAppState', stringifiedStore);
-};
+  const saveState = () => {
+    const state = store.getState();
 
-const state = restoreStateFromLocalStorage();
-const store = createStore(reducers, state);
+    return fetch('/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(state),
+    });
+  };
 
-store.subscribe(saveStateInLocalStorage);
+  store = createStore(reducers);
+
+  store.subscribe(saveState);
+  restoreStateFromServer();
+} else {
+  const restoreStateFromLocalStorage = () => {
+    const stringifiedStore = localStorage.getItem('todoAppState');
+    
+    if (!stringifiedStore) {
+      return {};
+    }
+    
+    return JSON.parse(stringifiedStore);
+  };
+
+  const saveStateInLocalStorage = () => {
+    const state = store.getState();
+    const stringifiedStore = JSON.stringify(state);
+    localStorage.setItem('todoAppState', stringifiedStore);
+  };
+
+  const state = restoreStateFromLocalStorage();
+  store = createStore(reducers, state);
+
+  store.subscribe(saveStateInLocalStorage);
+}
 
 export default store;

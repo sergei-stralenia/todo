@@ -4,18 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "build": "webpack --progress",
+    "build-server": "USE_SERVER=true webpack --progress",
     "deploy": "surge",
     "gh-deploy": "gh-pages -d build",
     "watch": "webpack --progress -w",
+    "watch-server": "USE_SERVER=true webpack --progress -w",
     "lint": "eslint --ext js,jsx ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
+    "redis": "^3.0.2",
     "redux": "^4.0.5",
     "uuidv4": "^6.1.0"
   },
