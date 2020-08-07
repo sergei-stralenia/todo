@@ -5,7 +5,10 @@ import initialState  from './initialState';
 
 let store;
 
-if (Boolean(process.env.USE_SERVER)) {
+const isServerUsed = process.env.USE_SERVER === 'true';
+console.log('isServerUsed', isServerUsed);
+
+if (isServerUsed) {
   const restoreStateFromServer = () => {
     fetch('/tasks')
       .then(response => response.json())
