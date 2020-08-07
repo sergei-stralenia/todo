@@ -12,10 +12,12 @@ router.get('/health', (_req, res) => {
   res.status(200).end('OK');
 });
 
+console.log('process.env', process.env);
+
 if (process.env.USE_SERVER === 'true') {
   const redisClient = redis.createClient({
-    host: 'localhost',
-    port: 6777,
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT || 6777,
   });
   
   redisClient.on('error', error => {

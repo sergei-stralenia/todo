@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-pod
+  labels:
+    app: todo
+spec:
+  containers:
+    - name: server
+      image: sstralenia/todo-noserver:41f39e19aeaa35aa8571791532c0da7aa6bf40c8
+      ports:
+        - name: web
+          containerPort: 3000
+          protocol: TCP
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: web
+          httpHeaders:
+        initialDelaySeconds: 3
+        periodSeconds: 3
+      readinessProbe:
+        httpGet:
+          path: /health
+          port: web
+          httpHeaders:
+        initialDelaySeconds: 3
+        periodSeconds: 5
