@@ -6,7 +6,6 @@ import initialState  from './initialState';
 let store;
 
 const isServerUsed = process.env.USE_SERVER === 'true';
-console.log('isServerUsed', isServerUsed);
 
 if (isServerUsed) {
   const restoreStateFromServer = () => {

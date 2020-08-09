@@ -46,8 +46,6 @@ if (process.env.USE_SERVER === 'true') {
     const tasks = req.body;
     const jsonTasks = JSON.stringify(tasks);
   
-    console.log('jsonTasks', jsonTasks);
-  
     redisClient.set(['tasks', jsonTasks], (err, result) => {
       if (err) {
         return res.status(500).end('Bad request');

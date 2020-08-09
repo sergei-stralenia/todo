@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "todo.fullname" . }}
+  labels:
+    {{- include "todo.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "todo.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "todo.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+              protocol: TCP
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.hostKey }}
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.portKey }}
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path | default "/" }}
+              port: http
+              httpHeaders:
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 3 }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 3 }}
+          {{- end}}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path | default "/" }}
+              port: http
+              httpHeaders:
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 3 }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 10 }}
+          {{- end}}

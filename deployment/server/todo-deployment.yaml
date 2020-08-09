@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: sstralenia/todo:41f39e19aeaa35aa8571791532c0da7aa6bf40c8
+          image: sstralenia/todo:d1c9afbf9850033ddfce2534a571a64254f94a8f
           ports:
             - name: web
               containerPort: 3000
