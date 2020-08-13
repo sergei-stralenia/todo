@@ -12,8 +12,6 @@ router.get('/health', (_req, res) => {
   res.status(200).end('OK');
 });
 
-console.log('process.env', process.env);
-
 if (process.env.USE_SERVER === 'true') {
   const redisClient = redis.createClient({
     host: process.env.REDIS_HOST || 'localhost',
@@ -21,7 +19,7 @@ if (process.env.USE_SERVER === 'true') {
   });
   
   redisClient.on('error', error => {
-    console.error(error);
+    console.error(error); // eslint-disable-line
   });
   
   router.get('/tasks', (_req, res) => {
@@ -46,7 +44,7 @@ if (process.env.USE_SERVER === 'true') {
     const tasks = req.body;
     const jsonTasks = JSON.stringify(tasks);
   
-    redisClient.set(['tasks', jsonTasks], (err, result) => {
+    redisClient.set(['tasks', jsonTasks], err => {
       if (err) {
         return res.status(500).end('Bad request');
       }
@@ -63,5 +61,5 @@ router.all('*', (_req, res) => {
 app.use(router);
 
 app.listen(3000, () => {
-  console.log('Server started');
+  console.log('Server started'); // eslint-disable-line
 });

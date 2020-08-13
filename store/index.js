@@ -16,7 +16,7 @@ if (isServerUsed) {
 
         store.dispatch(setStore(data || initialState));
       });
-  }
+  };
 
   const saveState = () => {
     const state = store.getState();
