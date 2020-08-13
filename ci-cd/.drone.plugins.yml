@@ -1,0 +1,39 @@
+---
+name: default
+kind: pipeline
+
+steps:
+- name: Lint
+  image: node
+  commands:
+    - npm i --progress --no-audit
+    - npm run lint
+
+- name: Docker
+  image: plugins/docker
+  settings:
+    repo:
+      from_secret: dockerhub_repo
+    username:
+      from_secret: dockerhub_username
+    password:
+      from_secret: dockerhub_pass
+      
+- name: Slack
+  image: plugins/slack
+  settings:
+    webhook:
+      from_secret: slack_webhook_url
+    channel:
+      from_secret: slack_channel
+    template: >
+      {{#success build.status}}
+        Build {{build.number}} succeeded. Good job.
+      {{else}}
+        Build {{build.number}} failed. Fix me please.
+      {{/success}}
+    when:
+      status: [ success, failure ]
+  depends_on:
+    - Lint
+    - Docker

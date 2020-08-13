@@ -26,8 +26,6 @@ steps:
       target: /
       exclude:
         - "**/*.sh"
-    depends_on:
-      - build
 
   - name: send telegram notification
     image: appleboy/drone-telegram
@@ -42,6 +40,3 @@ steps:
         {{else}}
           Build {{build.number}} failed. Fix me please.
         {{/success}}
-    depends_on:
-      - build
-      - upload

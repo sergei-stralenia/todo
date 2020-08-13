@@ -14,14 +14,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 9.x
-      - run: npm install --progress --no-audit
-      - run: npm run lint
+      - name: Install dependencies
+        run: npm install --progress --no-audit
+      - name: Lint
+        run: npm run lint
       - name: Build 🔧
-        run: |
-          npm run build
+        run: npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
+          BRANCH: gh-pages
+          FOLDER: build

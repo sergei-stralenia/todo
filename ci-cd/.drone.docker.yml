@@ -1,0 +1,21 @@
+---
+name: default
+kind: pipeline
+
+steps:
+- name: Build
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  commands:
+  - echo $COMMIT
+  - docker build -t todo .
+  - docker tag todo sstralenia/todo-noserver:$COMMIT
+  - docker login -u sstralenia -p startupsummer2020
+  - docker push sstralenia/todo-noserver:$COMMIT
+
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
